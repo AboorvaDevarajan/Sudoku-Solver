@@ -6,7 +6,7 @@ bool unassigned(int sudoku_grid[4][4],int &row,int &column){
 	int i,j;
 	for(row=0;row<4;row++)
 		for(column=0;column<4;column++)
-			if(sudoku_grid[i][j] == 0)
+			if(sudoku_grid[row][column] == 0)
 				return true;
 	return false;
 }
@@ -15,9 +15,8 @@ bool unassigned(int sudoku_grid[4][4],int &row,int &column){
 */
 bool check_if_number_in_row(int sudoku_grid[4][4],int row,int column,int num){
 	int i,j;
-	for(i=row;;)
 		for(j=0;j<4;j++)
-			if(sudoku_grid[i][j] == num)
+			if(sudoku_grid[row][j] == num)
 				return true;
 	return false;
 }
@@ -27,8 +26,7 @@ bool check_if_number_in_row(int sudoku_grid[4][4],int row,int column,int num){
 bool check_if_number_in_column(int sudoku_grid[4][4],int row,int column,int num){
 	int i,j;
 	for(i=0;i<4;i++)
-		for(j=column;;)
-			if(sudoku_grid[i][j] == num)
+			if(sudoku_grid[i][column] == num)
 				return true;
 	return false;
 }
@@ -43,14 +41,46 @@ bool check_if_number_in_box(int sudoku_grid[4][4],int row,int column,int num){
     return true;
  return false; 
 }
+
+
+
+bool check_if_valid(int sudoku_grid[4][4],int row,int column,int num){
+ if(!(check_if_number_in_row(sudoku_grid,row,column,num)) && !(check_if_number_in_column(sudoku_grid,row,column,num)) && !(check_if_number_in_box(sudoku_grid,row - row%2 , column - column%2,num))){
+  return true;
+  }
+ return false;
+}
+
+
 // Main Function to solve sudoku, using backtracking technique.
 bool solve_sudoku(int sudoku_grid[4][4]){
 	int row, column;
-	if(!unassigned(sudoku_grid,row,column))
+	if(!unassigned(sudoku_grid,row,column)){
 		return true;
+	}
+	int num;
+	for(num = 1; num <= 4 ; num ++){
+	 if(check_if_valid(sudoku_grid,row,column,num)){
+	  sudoku_grid[row][column] = num;
+	  if(solve_sudoku(sudoku_grid))
+	   return true;
+	  sudoku_grid[row][column] = 0;
+	 }
+	}
+	return false;
 }
 int main(){
-	int sudoku_grid[4][4]= {{0,0,3,4},{3,4,0,0},{0,0,4,3},{0,3,2,0}};
-	solve_sudoku(sudoku_grid);
+	int sudoku_grid[4][4]= {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
+	if(solve_sudoku(sudoku_grid) == true){
+	 int i,j;
+	 for(i=0;i<4;i++){
+	  for(j=0;j<4;j++){
+	   printf("%d\t",sudoku_grid[i][j]);
+	  }
+	  printf("\n");
+	 }
+	}
+	else
+	 printf("No valid Solutions");
 	return 0;
 }
