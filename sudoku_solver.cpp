@@ -41,18 +41,18 @@ bool check_if_number_in_box(int sudoku_grid[4][4],int row,int column,int num){
     return true;
  return false; 
 }
-
-
-
+/*
+* Checks if the number is valid to be allocated in a particular cell.
+*/
 bool check_if_valid(int sudoku_grid[4][4],int row,int column,int num){
  if(!(check_if_number_in_row(sudoku_grid,row,column,num)) && !(check_if_number_in_column(sudoku_grid,row,column,num)) && !(check_if_number_in_box(sudoku_grid,row - row%2 , column - column%2,num))){
   return true;
   }
  return false;
 }
-
-
-// Main Function to solve sudoku, using backtracking technique.
+/*
+* Main Function to solve sudoku, using backtracking technique.
+*/
 bool solve_sudoku(int sudoku_grid[4][4]){
 	int row, column;
 	if(!unassigned(sudoku_grid,row,column)){
