@@ -72,6 +72,7 @@ bool solve_sudoku(int sudoku_grid[4][4]){
 int main(){
 	int sudoku_grid[4][4]= {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
 	if(solve_sudoku(sudoku_grid) == true){
+	 printf("Solved SUDOKU grid");
 	 int i,j;
 	 for(i=0;i<4;i++){
 	  for(j=0;j<4;j++){
